@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "Tameng",
+  "version": "1.0.0",
+  "description": "Blokir situs judi online, konten dewasa, malware, dan phishing. Daftar blokir pribadi, kata kunci, dan PIN.",
+  "minimum_chrome_version": "121",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Tameng",
+    "default_popup": "pages/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "options_page": "pages/options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "declarativeNetRequest",
+    "storage",
+    "unlimitedStorage",
+    "tabs",
+    "webNavigation",
+    "alarms"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["lib/domain.js", "lib/detect.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["pages/blocked.html", "pages/blocked.js", "pages/ui.css", "pages/shared.js", "lib/*.js", "icons/*.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

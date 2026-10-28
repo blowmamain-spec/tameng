@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pengaturan Tameng</title>
+  <link rel="stylesheet" href="ui.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="lock" id="lock" hidden>
+    <form class="lock-box" id="lock-form">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 2 28 6.5 27 17C25.5 23 21 27.5 16 30 11 27.5 6.5 23 5 17L4 6.5Z" />
+        <rect x="10" y="13.5" width="12" height="4" rx="0.5" />
+      </svg>
+      <h1>Pengaturan terkunci</h1>
+      <p class="muted">Masukkan PIN untuk mengubah pengaturan Tameng.</p>
+      <label class="visually-hidden" for="lock-pin">PIN</label>
+      <input type="password" id="lock-pin" inputmode="numeric" maxlength="8" autocomplete="off" required>
+      <button class="btn primary" type="submit">Buka</button>
+      <p class="msg error" id="lock-msg" role="alert"></p>
+    </form>
+  </div>
+
+  <div class="layout" id="app" hidden>
+    <nav class="side" aria-label="Bagian pengaturan">
+      <a class="brand" href="#perlindungan">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 2 28 6.5 27 17C25.5 23 21 27.5 16 30 11 27.5 6.5 23 5 17L4 6.5Z" />
+          <rect x="10" y="13.5" width="12" height="4" rx="0.5" />
+        </svg>
+        Tameng
+      </a>
+      <a href="#perlindungan">Perlindungan</a>
+      <a href="#blokir">Blokir mandiri</a>
+      <a href="#kata-kunci">Kata kunci</a>
+      <a href="#putih">Daftar putih</a>
+      <a href="#daftar-online">Daftar online</a>
+      <a href="#pin">PIN &amp; mode ketat</a>
+      <a href="#riwayat">Riwayat</a>
+      <a href="#cadangan">Cadangan</a>
+    </nav>
+
+    <main class="content">
+      <section id="perlindungan" class="block lead-block">
+        <div class="status-line">
+          <h1 id="status-title">Perlindungan aktif</h1>
+          <label class="switch">
+            <span class="visually-hidden">Perlindungan aktif</span>
+            <input type="checkbox" id="enabled">
+            <span class="track"></span>
+          </label>
+        </div>
+        <p class="muted" id="status-detail"></p>
+
+        <div class="cats">
+          <label class="cat">
+            <span class="switch"><input type="checkbox" data-cat="judi"><span class="track"></span></span>
+            <span><strong>Judi online</strong><br><span class="muted">Daftar domain judi + kata kunci isi halaman yang kamu isi.</span></span>
+          </label>
+          <label class="cat">
+            <span class="switch"><input type="checkbox" data-cat="porn"><span class="track"></span></span>
+            <span><strong>Konten dewasa</strong><br><span class="muted">Daftar domain dewasa, label "adult" pada situs, dan kata kunci kamu.</span></span>
+          </label>
+          <label class="cat">
+            <span class="switch"><input type="checkbox" data-cat="malware"><span class="track"></span></span>
+            <span><strong>Malware &amp; phishing</strong><br><span class="muted">Daftar domain berbahaya dan peringatan untuk alamat yang meniru bank, e-wallet, atau marketplace.</span></span>
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label class="switch">
+            <input type="checkbox" id="contentScan">
+            <span class="track"></span>
+            <span>Periksa isi halaman</span>
+          </label>
+          <label class="field">
+            <span>Kepekaan deteksi</span>
+            <select id="sensitivity">
+              <option value="strict">Ketat (lebih cepat memblokir)</option>
+              <option value="normal">Normal</option>
+              <option value="lenient">Longgar (lebih sedikit salah blokir)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid-2 tab-options">
+          <label class="switch">
+            <input type="checkbox" id="checkOpenTabs">
+            <span class="track"></span>
+            <span>Periksa juga tab yang sudah terbuka saat daftar berubah</span>
+          </label>
+          <label class="field">
+            <span>Tab yang diblokir</span>
+            <select id="autoClose">
+              <option value="off">Biarkan terbuka dengan halaman blokir</option>
+              <option value="delay">Tutup otomatis setelah 5 detik</option>
+              <option value="now">Langsung ditutup</option>
+            </select>
+          </label>
+        </div>
+
+        <details class="sb">
+          <summary>Google Safe Browsing (opsional)</summary>
+          <p class="muted">Dengan API key gratis dari Google Cloud, setiap alamat yang kamu buka dicek ke Google. Artinya alamat tersebut dikirim ke Google. Kosongkan untuk mematikan.</p>
+          <form class="inline" id="sb-form">
+            <label class="visually-hidden" for="sb-key">API key Safe Browsing</label>
+            <input type="password" id="sb-key" placeholder="API key" autocomplete="off">
+            <button class="btn" type="submit">Simpan key</button>
+          </form>
+        </details>
+        <p class="msg" id="msg-perlindungan" role="status"></p>
+      </section>
+
+      <section id="blokir" class="block">
+        <h2>Blokir mandiri</h2>
+        <p class="muted">Situs yang kamu tulis di sini selalu diblokir, termasuk semua subdomainnya.</p>
+        <form class="inline" data-list="block">
+          <label class="visually-hidden" for="add-block">Alamat situs</label>
+          <input type="text" id="add-block" placeholder="contoh: situs-yang-mau-diblokir.com" autocomplete="off">
+          <button class="btn primary" type="submit">Blokir</button>
+        </form>
+        <details class="bulk">
+          <summary>Tambah banyak sekaligus</summary>
+          <form data-list="block" data-bulk>
+            <label class="visually-hidden" for="bulk-block">Daftar alamat, satu per baris</label>
+            <textarea id="bulk-block" placeholder="Satu alamat per baris"></textarea>
+            <button class="btn" type="submit">Tambahkan semua</button>
+          </form>
+        </details>
+        <p class="msg" data-msg="block" role="status"></p>
+        <ul class="chips" data-render="block"></ul>
+      </section>
+
+      <section id="kata-kunci" class="block">
+        <h2>Kata kunci</h2>
+        <div class="kw-grid">
+          <div class="kw-col wide">
+            <h3>Di alamat (URL)</h3>
+            <p class="muted">Alamat apa pun yang mengandung kata ini langsung diblokir, termasuk halaman hasil pencarian.</p>
+            <form class="inline" data-list="urlKeywords">
+              <label class="visually-hidden" for="add-urlkw">Kata kunci URL</label>
+              <input type="text" id="add-urlkw" placeholder="kata kunci" autocomplete="off">
+              <button class="btn" type="submit">Tambah</button>
+            </form>
+            <p class="msg" data-msg="urlKeywords" role="status"></p>
+            <ul class="chips" data-render="urlKeywords"></ul>
+          </div>
+          <div class="kw-col">
+            <h3>Di isi halaman: judi</h3>
+            <form class="inline" data-list="pageKeywords" data-cat="judi">
+              <label class="visually-hidden" for="add-kw-judi">Kata kunci judi</label>
+              <input type="text" id="add-kw-judi" placeholder="kata kunci" autocomplete="off">
+              <button class="btn" type="submit">Tambah</button>
+            </form>
+            <p class="msg" data-msg="pageKeywords:judi" role="status"></p>
+            <ul class="chips" data-render="pageKeywords:judi"></ul>
+          </div>
+          <div class="kw-col">
+            <h3>Di isi halaman: dewasa</h3>
+            <form class="inline" data-list="pageKeywords" data-cat="porn">
+              <label class="visually-hidden" for="add-kw-porn">Kata kunci konten dewasa</label>
+              <input type="text" id="add-kw-porn" placeholder="kata kunci" autocomplete="off">
+              <button class="btn" type="submit">Tambah</button>
+            </form>
+            <p class="msg" data-msg="pageKeywords:porn" role="status"></p>
+            <ul class="chips" data-render="pageKeywords:porn"></ul>
+          </div>
+        </div>
+        <p class="note muted" id="kw-note"></p>
+      </section>
+
+      <section id="putih" class="block">
+        <h2>Daftar putih</h2>
+        <p class="muted">Situs di sini tidak pernah diblokir atau diperiksa. Pakai untuk situs yang salah blokir.</p>
+        <form class="inline" data-list="white">
+          <label class="visually-hidden" for="add-white">Alamat situs</label>
+          <input type="text" id="add-white" placeholder="contoh: situs-sekolah.sch.id" autocomplete="off">
+          <button class="btn" type="submit">Izinkan</button>
+        </form>
+        <p class="msg" data-msg="white" role="status"></p>
+        <ul class="chips" data-render="white"></ul>
+      </section>
+
+      <section id="daftar-online" class="block">
+        <div class="head-row">
+          <h2>Daftar online</h2>
+          <button class="btn small" id="refresh">Perbarui sekarang</button>
+        </div>
+        <p class="muted">Daftar domain publik yang diunduh dan diperbarui otomatis setiap 24 jam.</p>
+        <p class="msg" id="msg-sources" role="status"></p>
+        <div class="table-wrap">
+          <table class="sources">
+            <thead>
+              <tr><th scope="col">Aktif</th><th scope="col">Daftar</th><th scope="col">Kategori</th><th scope="col">Isi</th><th scope="col"><span class="visually-hidden">Aksi</span></th></tr>
+            </thead>
+            <tbody id="sources-body"></tbody>
+          </table>
+        </div>
+        <details class="bulk">
+          <summary>Tambah daftar dari URL</summary>
+          <form id="source-form" class="source-form">
+            <label class="field"><span>Nama</span><input type="text" id="src-name" placeholder="Nama daftar"></label>
+            <label class="field"><span>URL (https)</span><input type="url" id="src-url" placeholder="https://…/hosts.txt" required></label>
+            <label class="field"><span>Kategori</span>
+              <select id="src-cat">
+                <option value="judi">Judi online</option>
+                <option value="porn">Konten dewasa</option>
+                <option value="malware">Malware &amp; phishing</option>
+              </select>
+            </label>
+            <button class="btn" type="submit">Tambah &amp; unduh</button>
+          </form>
+          <p class="muted small">Format yang dikenali: file hosts, satu domain per baris, atau format adblock <code>||domain^</code>.</p>
+        </details>
+      </section>
+
+      <section id="pin" class="block">
+        <h2>PIN &amp; mode ketat</h2>
+        <p class="muted" id="pin-state"></p>
+        <form class="pin-form" id="pin-form">
+          <label class="field" id="old-pin-field"><span>PIN lama</span><input type="password" id="old-pin" inputmode="numeric" maxlength="8" autocomplete="off"></label>
+          <label class="field"><span>PIN baru (4 sampai 8 angka)</span><input type="password" id="new-pin" inputmode="numeric" maxlength="8" autocomplete="off"></label>
+          <div class="row">
+            <button class="btn primary" type="submit" id="pin-save">Simpan PIN</button>
+            <button class="btn danger" type="button" id="pin-remove" hidden>Hapus PIN</button>
+          </div>
+        </form>
+        <p class="msg" id="msg-pin" role="status"></p>
+        <label class="switch strict">
+          <input type="checkbox" id="strictMode">
+          <span class="track"></span>
+          <span><strong>Mode ketat</strong>: tombol "Izinkan situs ini" disembunyikan di halaman blokir.</span>
+        </label>
+        <p class="note muted">PIN dan mode ketat mempersulit membuka blokir dengan cepat. Ekstensi tetap bisa dicopot dari halaman ekstensi browser, jadi untuk perangkat anak pertimbangkan juga kontrol orang tua di tingkat akun atau DNS.</p>
+      </section>
+
+      <section id="riwayat" class="block">
+        <div class="head-row">
+          <h2>Riwayat pemblokiran</h2>
+          <button class="btn small danger" id="clear-log">Hapus riwayat</button>
+        </div>
+        <ol class="log" id="log"></ol>
+      </section>
+
+      <section id="cadangan" class="block">
+        <h2>Cadangan</h2>
+        <p class="muted">Simpan pengaturan, daftar blokir, dan kata kunci ke file JSON. PIN tidak ikut disimpan.</p>
+        <div class="row">
+          <button class="btn" id="export">Unduh cadangan</button>
+          <button class="btn" id="import">Pulihkan dari file</button>
+          <input type="file" id="import-file" accept="application/json,.json" class="visually-hidden">
+        </div>
+        <p class="msg" id="msg-backup" role="status"></p>
+      </section>
+    </main>
+  </div>
+
+  <script src="../lib/domain.js"></script>
+  <script src="shared.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

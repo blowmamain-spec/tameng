@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diblokir oleh Tameng</title>
+  <link rel="stylesheet" href="ui.css">
+  <link rel="stylesheet" href="blocked.css">
+</head>
+<body>
+  <main class="gate" id="gate" data-kind="block">
+    <svg class="shield" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 2 28 6.5 27 17C25.5 23 21 27.5 16 30 11 27.5 6.5 23 5 17L4 6.5Z" />
+      <rect x="10" y="13.5" width="12" height="4" rx="0.5" />
+    </svg>
+
+    <h1 id="title">Situs ini diblokir</h1>
+    <p><span class="stamp blocked" id="host">alamat tidak diketahui</span></p>
+    <p class="lead" id="lead"></p>
+    <ul class="reasons" id="reasons"></ul>
+
+    <details class="full-url" id="full-url-box" hidden>
+      <summary>Lihat alamat lengkap</summary>
+      <code id="full-url"></code>
+    </details>
+
+    <div class="actions">
+      <button class="btn primary" id="back">Kembali ke halaman sebelumnya</button>
+      <button class="btn quiet" id="allow" hidden>Izinkan situs ini</button>
+      <button class="btn quiet" id="proceed" hidden>Saya paham risikonya, tetap buka</button>
+    </div>
+    <p class="closing" id="closing" role="status" hidden>
+      <span id="closing-text"></span>
+      <button class="btn small quiet" id="keep-open">Jangan tutup</button>
+    </p>
+    <p class="msg" id="msg" role="status"></p>
+
+    <p class="footnote muted" id="footnote">
+      Salah blokir? Kamu bisa mengatur daftar putih di <a href="options.html#putih" target="_blank">pengaturan Tameng</a>.
+    </p>
+  </main>
+  <script src="shared.js"></script>
+  <script src="blocked.js"></script>
+</body>
+</html>

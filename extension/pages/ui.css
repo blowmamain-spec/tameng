@@ -1,0 +1,167 @@
+/*
+  Tameng design notes (one line per decision):
+  - Palette: warm paper + deep shield green as the "protected" color; brick red appears only at the moment
+    something is blocked, so it keeps its meaning.
+  - Type: the system UI font, because extension pages must work offline and feel native to the browser;
+    Georgia for the block-page verdict to give it a calm, firm voice instead of an alarm.
+  - Motif: the domain "stamp" (monospace, bordered, slightly heavy) marks every place a website address
+    is the subject: popup, block page, history.
+  - Theme follows the browser/system setting, like the browser's own pages; both modes are defined below.
+*/
+:root {
+  --paper: #f4f1ea;
+  --surface: #fffdf8;
+  --ink: #1c2422;
+  --muted: #545f5b;
+  --line: #d6cfc1;
+  --green: #1f5c4a;
+  --green-ink: #f6f3ec;
+  --green-soft: #e3ece6;
+  --brick: #a43a22;
+  --brick-soft: #f6e4dd;
+  --focus: #1f5c4a;
+  --radius: 6px;
+  --radius-panel: 10px;
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --mono: Consolas, "Cascadia Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #121715;
+    --surface: #1a201e;
+    --ink: #ebe8e1;
+    --muted: #a4ada9;
+    --line: #333c39;
+    --green: #78c4a5;
+    --green-ink: #0f1513;
+    --green-soft: #1e2d27;
+    --brick: #ec8a72;
+    --brick-soft: #33201b;
+    --focus: #78c4a5;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 15px/1.5 var(--font);
+}
+
+h1, h2, h3 { line-height: 1.25; margin: 0; }
+
+a { color: var(--green); }
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--green); border-color: var(--green); color: var(--green-ink); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.danger { color: var(--brick); }
+.btn.quiet { border-color: transparent; background: transparent; color: var(--muted); font-weight: 500; }
+.btn.quiet:hover { color: var(--ink); }
+.btn.small { min-height: 36px; padding: 0 12px; font-size: 14px; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+
+input[type="text"], input[type="password"], input[type="url"], select, textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+textarea { min-height: 96px; resize: vertical; }
+
+.stamp {
+  display: inline-block;
+  max-width: 100%;
+  padding: 3px 10px;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  font: 600 14px/1.4 var(--mono);
+  letter-spacing: .01em;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+.stamp.blocked { color: var(--brick); background: var(--brick-soft); }
+.stamp.safe { color: var(--green); background: var(--green-soft); }
+
+/* Switch built on a real checkbox so keyboard and screen readers work unchanged. */
+.switch { position: relative; display: inline-flex; align-items: center; gap: 12px; cursor: pointer; min-height: 44px; }
+.switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.switch .track {
+  flex: none;
+  width: 42px; height: 24px;
+  border-radius: 12px;
+  background: var(--line);
+  position: relative;
+  transition: background .15s;
+}
+.switch .track::after {
+  content: "";
+  position: absolute; top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--surface);
+  transition: transform .15s;
+}
+.switch input:checked + .track { background: var(--green); }
+.switch input:checked + .track::after { transform: translateX(18px); }
+.switch input:focus-visible + .track { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.msg { margin: 8px 0 0; font-size: 14px; min-height: 1.5em; }
+.msg.error { color: var(--brick); }
+.msg.ok { color: var(--green); }
+
+.muted { color: var(--muted); }
+
+dialog {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 20px;
+  width: min(340px, calc(100vw - 32px));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+}
+dialog::backdrop { background: rgba(10, 14, 13, .45); }
+dialog h2 { font-size: 18px; margin-bottom: 6px; }
+dialog form { display: grid; gap: 12px; }
+dialog .row { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

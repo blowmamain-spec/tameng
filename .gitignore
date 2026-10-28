@@ -1,0 +1,11 @@
+# Pengaturan pratinjau aplikasi Claude, tidak dipakai ekstensi
+.claude/
+
+# File zip untuk rilis dibuat ulang tiap kali, jangan ikut di repo
+*.zip
+
+# Sampah sistem
+Thumbs.db
+desktop.ini
+.DS_Store
+node_modules/

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>Tameng</title>
+  <link rel="stylesheet" href="ui.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="top">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 2 28 6.5 27 17C25.5 23 21 27.5 16 30 11 27.5 6.5 23 5 17L4 6.5Z" />
+      <rect x="10" y="13.5" width="12" height="4" rx="0.5" />
+    </svg>
+    <span class="name">Tameng</span>
+    <label class="switch">
+      <span class="visually-hidden">Perlindungan aktif</span>
+      <input type="checkbox" id="enabled">
+      <span class="track"></span>
+    </label>
+  </header>
+
+  <section class="site" aria-labelledby="site-label">
+    <h1 id="site-label" class="label muted">Situs di tab ini</h1>
+    <p class="host-line"><span class="stamp" id="host">memuat…</span></p>
+    <p class="status" id="status"></p>
+    <div class="actions" id="actions" hidden>
+      <button class="btn primary" id="block">Blokir situs ini</button>
+      <button class="btn quiet" id="allow">Masukkan ke daftar putih</button>
+      <button class="btn quiet" id="unallow" hidden>Hapus dari daftar putih</button>
+    </div>
+    <p class="msg" id="msg" role="status"></p>
+  </section>
+
+  <footer class="foot">
+    <p class="count" id="count"></p>
+    <a class="btn small" href="options.html" target="_blank" id="open-options">Buka pengaturan</a>
+  </footer>
+
+  <script src="../lib/domain.js"></script>
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+}
+
+.gate {
+  width: min(560px, 100%);
+}
+
+.shield {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+}
+.shield path { fill: var(--brick); }
+.shield rect { fill: var(--paper); }
+.gate[data-kind="warn"] .shield path { fill: none; stroke: var(--brick); stroke-width: 2; }
+.gate[data-kind="warn"] .shield rect { fill: var(--brick); }
+
+h1 {
+  font: 400 clamp(28px, 6vw, 40px)/1.15 var(--serif);
+  margin-bottom: 16px;
+}
+
+.lead { font-size: 17px; margin: 16px 0 8px; }
+
+.reasons { margin: 0 0 16px; padding-left: 20px; color: var(--muted); }
+.reasons li + li { margin-top: 4px; }
+
+.full-url { margin: 0 0 24px; font-size: 14px; }
+.full-url summary { cursor: pointer; color: var(--muted); min-height: 32px; }
+.full-url code {
+  display: block;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: 13px/1.5 var(--mono);
+  overflow-wrap: anywhere;
+}
+
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+.closing { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; margin: 16px 0 0; color: var(--muted); }
+
+.footnote { margin-top: 40px; font-size: 14px; border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (max-width: 480px) {
+  .actions .btn { width: 100%; }
+}
